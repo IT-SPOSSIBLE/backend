@@ -48,21 +48,33 @@ FRONTEND_URL = 'http://localhost:3000'  # Or the actual URL of your frontend
 # Application definition
 
 INSTALLED_APPS = [
+    # Grappelli must come first!
+    'grappelli',
+    'grappelli.dashboard',
+
+    # Django default apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #the apps
+
+    # Your apps
     'api',
-  
-    #third part
+    'category',
+    'product',
+    'message',
+    'motocycleImage',
+    'conversation',
+
+    # Third-party apps
     'rest_framework',
     "rest_framework_simplejwt",
     "corsheaders",
     'drf_yasg',
 ]
+
 
 MIDDLEWARE = [
      "corsheaders.middleware.CorsMiddleware",
@@ -85,18 +97,31 @@ ROOT_URLCONF = 'drf_api.urls'
 CORS_ALLOW_ALL_ORIGINS = True
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
-     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ],
 }
 
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': [],
+#         'APP_DIRS': True,
+#         'OPTIONS': {
+#             'context_processors': [
+#                 'django.template.context_processors.debug',
+#                 'django.template.context_processors.request',
+#                 'django.contrib.auth.context_processors.auth',
+#                 'django.contrib.messages.context_processors.messages',
+#             ],
+#         },
+#     },
+# ]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -109,9 +134,11 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'drf_api.wsgi.application'
-
-
+GRAPPELLI_INDEX_DASHBOARD = 'api.dashboard.CustomIndexDashboard'
+GRAPPELLI_ADMIN_TITLE = "It Is Possible Admin Dashboard"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 

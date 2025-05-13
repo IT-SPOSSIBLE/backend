@@ -19,6 +19,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
    
