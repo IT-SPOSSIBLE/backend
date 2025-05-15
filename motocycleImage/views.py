@@ -1,3 +1,16 @@
-from django.shortcuts import render
+from drf_api.base import BaseListCreateAPIView,BaseRetrieveUpdateDestroyAPIView
 
-# Create your views here.
+from .serializers import MotocycleSerializer
+
+from .models import MotocycleImage
+
+
+class MotocycleListCreateAPIView(BaseListCreateAPIView):
+    model = MotocycleImage
+    serializer_class = MotocycleSerializer
+
+
+class MotocycleRetrieveUpdateDestroyAPIView(BaseRetrieveUpdateDestroyAPIView):
+    model = MotocycleImage
+    serializer_class = MotocycleSerializer
+  

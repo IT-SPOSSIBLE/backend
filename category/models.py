@@ -1,12 +1,14 @@
 from django.db import models
-
+from django.utils import timezone
+from django.contrib.auth import get_user_model
 from api.models import UserTB
 
+UserTB =get_user_model()
 class Category(models.Model):
-    id=models.AutoField(),
+    id=models.AutoField(primary_key=True)
     category_name=models.CharField(max_length=255)
     created_by=models.ForeignKey(UserTB,on_delete=models.CASCADE,related_name='category_created_by')
-    created_at=models.DateTimeField()
+    created_at=models.DateTimeField(default=timezone.now)
 
 
 
@@ -14,6 +16,5 @@ class Category(models.Model):
         verbose_name = "Category"
         verbose_name_plural = "Categories"
 
-    def create_category(id,category_name,created_by,created_at):
-        category=Category.objects.create(id=id,category_name=category_name,created_by=created_by,created_at=created_at)
-        return category
+    def __str__(self):
+        return self.category_name

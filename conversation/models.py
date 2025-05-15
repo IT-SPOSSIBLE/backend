@@ -1,21 +1,19 @@
 from django.db import models
-
 from api.models import UserTB
-
 from product.models import Product
 
 class Conversation(models.Model):
-    CONVERSATION_CHOICE=[
-        ('read', 'read'),
-        ('unread', 'unread')
-    ]
     id=models.AutoField(primary_key=True)
-    moto=models.ForeignKey(Product,on_delete=models.CASCADE,related_name='product_conversation')
-    buyer=models.ForeignKey(UserTB,on_delete=models.CASCADE,related_name='buyer_conversation')
-    started_at=models.DateTimeField()
-    status=models.CharField(max_length=10,choices=CONVERSATION_CHOICE,default="unread")
+    CONVERSATION_CHOICE = [
+        ('read', 'Read'),
+        ('unread', 'Unread')
+    ]
 
+    moto = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_conversations')
+    buyer = models.ForeignKey(UserTB, on_delete=models.CASCADE, related_name="conversations_as_buyer")
+    seller = models.ForeignKey(UserTB, on_delete=models.CASCADE, related_name="conversations_as_seller",default=1)
+    started_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=CONVERSATION_CHOICE, default="unread")
 
-    def create_conversation(id,moto,buyer,started_at,status):
-        conversation=Conversation.objects.create(id=id,moto=moto,buyer=buyer,started_at=started_at,status=status)
-        return conversation
+    def __str__(self):
+        return f'{self.moto.title} - {self.buyer.username} to {self.seller.username}'
