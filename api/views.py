@@ -10,12 +10,21 @@ from .models import UserTB
 from .serializers import UserTBSerializer, LoginSerializer, UserProfileSerializer
 import jwt
 from django.conf import settings
+from drf_spectacular.utils import extend_schema
 
 class RegisterView(APIView):
-    """
-    API for user registration and sending email verification link.
-    """
     permission_classes = [AllowAny]
+    """
+    API for user registration.
+    """
+    @extend_schema(
+        request=UserTBSerializer,
+        responses={200: None},
+        summary="Register a new user",
+        description="Takes email and password to create a new user."
+    )
+
+   
 
     def post(self, request):
         serializer = UserTBSerializer(data=request.data)
@@ -90,6 +99,7 @@ class UserLoginView(APIView):
                 {
                     "refresh": str(refresh),
                     "access": str(refresh.access_token),
+                    "email": user.email,
                     
                 }
             )

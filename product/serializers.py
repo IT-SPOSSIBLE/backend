@@ -1,14 +1,16 @@
 from rest_framework import serializers
 from .models import Product
-
+from category.serializers import CategorySerializer
+from motocycleImage.serializers import MotocycleSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
+    motocycleImage = MotocycleSerializer(read_only=True)
+
     class Meta:
-        model=Product
-        fields='__all__'
-        read_only_fields=['id','created_at','posted_by']
-
-
+        model = Product
+        fields = '__all__'
+        read_only_fields = ['id', 'created_at', 'posted_by']
 
     def create(self, validated_data):
         request = self.context.get('request')

@@ -43,9 +43,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-FRONTEND_URL = 'http://localhost:3000'  # Or the actual URL of your frontend
+FRONTEND_URL = "http://localhost:5173"
 
 # Application definition
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
 
 INSTALLED_APPS = [
     # Grappelli must come first!
@@ -73,6 +76,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     'drf_yasg',
+    'drf_spectacular',
 ]
 
 
@@ -94,13 +98,26 @@ DATABASES = {
 AUTH_USER_MODEL = "api.UserTB"
 ROOT_URLCONF = 'drf_api.urls'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'It Is Possible API',
+    'DESCRIPTION': 'Comprehensive API documentation for It Is Possible.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # Optional: 
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SCHEMA_PATH_PREFIX_TRIM': True,
+
+  
 }
 
 # TEMPLATES = [
