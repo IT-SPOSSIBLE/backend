@@ -10,6 +10,7 @@ from .models import UserTB
 from .serializers import UserTBSerializer, LoginSerializer, UserProfileSerializer
 import jwt
 from django.conf import settings
+from rest_framework import status, permissions
 from drf_spectacular.utils import extend_schema
 
 class RegisterView(APIView):
@@ -104,6 +105,20 @@ class UserLoginView(APIView):
                 }
             )
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class LogoutView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        try:
+            refresh_token = request.data.get("refresh")
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response({"detail": "Logout successful."}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"detail": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserProfileView(APIView):
     """
