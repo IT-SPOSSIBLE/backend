@@ -1,33 +1,61 @@
 from django.contrib import admin
 from .models import MotocycleImage
-from product.models import Product
 from django.utils.html import format_html
 
 @admin.register(MotocycleImage)
 class MotocycleImageAdmin(admin.ModelAdmin):
-    list_display = ('moto', 'image_preview', 'is_primary', 'uploaded_at')
-    list_filter = ('is_primary', 'uploaded_at')
-    search_fields = ('moto__title', 'imageUrl')
-    readonly_fields = ('uploaded_at',)
-    ordering = ('-uploaded_at',)
-
-
-    list_per_page = 20  
+    list_display = (
+        'get_title', 'get_price', 'get_category', 'get_status', 'get_posted_by', 'uploaded_at',
+        'image_path',
+        'image_preview',
+        'action_buttons',
+    )
+    list_per_page = 20
     fieldsets = (
         ('Motocycle Image Details', {
-            'fields': ('moto', 'imageUrl', 'is_primary')
+            'fields': ('image', 'is_primary')
         }),
         ('Metadata', {
             'fields': ('uploaded_at',)
         }),
     )
 
-    def image_preview(self, obj):
-        return format_html('<img src="{}" width="50" height="50" />', obj.imageUrl)
-    image_preview.short_description = 'Image Preview'
+    def get_title(self, obj):
+        return obj.product.title if obj.product else "-"
+    get_title.short_description = 'Title'
 
-    class Media:
-        css = {
-            'all': ('grappelli/css/grappelli.css',)
-        }
-        js = ('grappelli/js/grappelli.js',)
+    def get_price(self, obj):
+        return obj.product.price if obj.product else "-"
+    get_price.short_description = 'Price'
+
+    def get_category(self, obj):
+        return obj.product.category.category_name if obj.product and obj.product.category else "-"
+    get_category.short_description = 'Category'
+
+    def get_status(self, obj):
+        return obj.product.status if obj.product else "-"
+    get_status.short_description = 'Status'
+
+    def get_posted_by(self, obj):
+        return obj.product.posted_by if obj.product else "-"
+    get_posted_by.short_description = 'Posted By'
+
+    def image_path(self, obj):
+        if obj.image:
+            return obj.image.name
+        return "No Image"
+    image_path.short_description = 'Image Path'
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" width="50" height="50" />', obj.image.url)
+        return "-"
+    image_preview.short_description = "Image Preview"
+
+    def action_buttons(self, obj):
+        return format_html(
+            '<a href="{}">Edit</a> | <a href="{}">Delete</a>',
+            f"/admin/motocycleimage/motocycleimage/{obj.pk}/change/",
+            f"/admin/motocycleimage/motocycleimage/{obj.pk}/delete/"
+        )
+    action_buttons.short_description = "Actions"

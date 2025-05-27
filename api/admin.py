@@ -34,3 +34,7 @@ class UserTBAdmin(UserAdmin):
     created_at.short_description = 'Account Created'
 
 admin.site.register(UserTB, UserTBAdmin)
+
+def created_by_username(self, obj):
+    return str(obj.created_by)
+

@@ -35,7 +35,7 @@ urlpatterns = [
     path('messages/', include('message.urls')),
     path('conversations/', include('conversation.urls')),
     path('images/', include('motocycleImage.urls')),
-   
+    path('sms/', include('smsparser.urls')),
     # Swagger UI documentation
    #  path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
     

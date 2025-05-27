@@ -19,7 +19,7 @@ class CategoryAdmin(admin.ModelAdmin):
     )
 
     def created_by_username(self, obj):
-        return obj.created_by.username
+        return obj.created_by.email
     created_by_username.short_description = 'Created By'
 
     class Media:
