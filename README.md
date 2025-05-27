@@ -1,137 +1,135 @@
-Sure! Here's a professional README file for your Django SMS parser API project incorporating your initial snippet and extending it with documentation relevant to your SMS parsing feature:
+Got it! Here's a clean and focused `README.md` file that documents your project **as a website backend** (e.g., for user registration, login, profile management, etc.), without discussing the SMS transaction parsing logic:
 
-````markdown
+```markdown
 # drf-user-api
 
-## Project Overview
-This Django REST Framework (DRF) project provides backend APIs covering user authentication features including registration, login, profile management, password reset, and password forgot functionalities.
+## Overview
 
-Additionally, this project includes an SMS Transaction Parser API endpoint that processes transactional SMS messages (in English and Kiswahili) and extracts structured data such as transaction type, amount, sender and receiver information, remaining balance, transaction reference, and vendor identification.
+**drf-user-api** is a Django REST Framework-based backend template that supports core user authentication features for any modern web or mobile application. This project can be integrated with a frontend (e.g., React, Vue, Flutter) to build a full-stack web platform.
+
+It is ideal for use in websites requiring user account creation, secure login, password recovery, and profile management.
 
 ---
 
 ## Features
 
-### User Authentication
-- User registration
-- User login
-- Profile retrieval and update
-- Password forgot (request password reset)
-- Password reset (perform password update)
-
-### SMS Transaction Parser
-- Accepts raw SMS text messages related to financial transactions.
-- Supports parsing messages in both English and Kiswahili.
-- Extracts transaction details:
-  - Transaction Type (Send/Receive or Tuma/Pokea)
-  - Transaction Amount with currency
-  - Sender Name and Phone Number
-  - Receiver Name and Phone Number
-  - Remaining Balance
-  - Transaction Reference Number
-  - Vendor (Airtel, Vodacom, Tigo, Halotel or "-")
-- Automatically identifies whether the user is the sender or receiver and labels accordingly.
-- Returns a clean, structured JSON response.
+- ✅ User registration
+- ✅ Secure login using JWT or session authentication
+- ✅ Authenticated profile view & update
+- ✅ Forgot password (send reset email or token)
+- ✅ Reset password using token
+- 🔒 Built with Django REST Framework for scalability and security
 
 ---
 
-## Backend Setup
+## Use Case
 
-### Requirements
-- Python 3.8+
-- Django 3.x or higher
-- Django REST Framework
-- Requests (for external API calls)
-- OpenRouter API key (environment variable `OPENROUTER_API_KEY`)
+This project is intended to be used as the backend of a web application. You can integrate it with:
+- A **React** frontend
+- An **admin panel** or **dashboard**
+- Any client needing user authentication APIs
 
-### Installation
-1. Clone the repository
-   ```bash
-   git clone https://github.com/yourusername/drf-user-api.git
-   cd drf-user-api
+---
+
+## Project Structure
+
+```
+
+drf_api/
+├── api/              # User registration, login, profile APIs
+├── manage.py
+├── requirements.txt
+├── .env                # Environment variables (not committed)
+├── drf_api\       # Project settings and root URLs
+└── README.md
+
 ````
 
-2. Create and activate a virtual environment
+---
 
-   ```bash
-   python -m venv env
-   source env/bin/activate   # On Windows: env\Scripts\activate
-   ```
+## Getting Started
 
-3. Install dependencies
+### 1. Clone the repository
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+git clone https://github.com/yourusername/drf-user-api.git
+cd drf-user-api
+````
 
-4. Set your OpenRouter API key as an environment variable
+### 2. Set up the virtual environment
 
-   ```bash
-   export OPENROUTER_API_KEY="your_openrouter_api_key_here"
-   ```
+```bash
+python -m venv env
+source env/bin/activate  # or env\Scripts\activate on Windows
+```
 
-5. Run migrations and start the server
+### 3. Install dependencies
 
-   ```bash
-   python manage.py migrate
-   python manage.py runserver
-   ```
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Apply migrations and start the server
+
+```bash
+python manage.py migrate
+python manage.py runserver
+```
 
 ---
 
-## API Endpoints
+## Environment Variables
 
-### SMS Parser Endpoint
+Create a `.env` file to store your sensitive data:
 
-* **URL:** `/api/parse-sms/`
-* **Method:** POST
-* **Payload:**
+```
+DATABASE_URL=postgres://mlekwa:mlekwa123@localhost:5432/_db
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_USE_TLS=True
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_HOST_USER=
+EMAIL_HOST_PASSWORD=
 
-  ```json
-  {
-    "message": "Umelipa 1,000.00 Tsh kwenda YATOSHA BUNDLE. Makato Tsh 0.00. Salio 132,193.64 Tsh TID:MP250525.1327.Q61819"
-  }
-  ```
-* **Response:**
+STRIPE_TEST_API_KEY=p
+STRIPE_TEST_SECRET_KEY=
 
-  ```json
-  {
-    "type": "Send",
-    "amount": "1,000.00 Tsh",
-    "sender_name": "You",
-    "sender_number": "You",
-    "receiver_name": "YATOSHA BUNDLE",
-    "receiver_number": "-",
-    "balance": "132,193.64 Tsh",
-    "reference": "MP250525.1327.Q61819",
-    "vendor": "Vodacom"
-  }
-  ```
+# Database
+POSTGRES_DB=
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+
+
+OPENROUTER_API_KEY=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
+
+Use `python-decouple` or `django-environ` to manage `.env` variables securely in production.
 
 ---
 
-## Notes
+## API Endpoints Summary
 
-* The SMS Parser relies on the OpenRouter API using the `mistralai/mistral-7b-instruct` model.
-* Please ensure your API key is valid and you have sufficient quota to avoid errors.
-* The parser supports both English and Kiswahili transactional SMS formats.
-* Vendor detection is based on keywords in the SMS text.
+| Method | Endpoint                | Description            |
+| ------ | ----------------------- | ---------------------- |
+| POST   | `/users/register/`        | Register new user      |
+| POST   | `/users/login/`           | User login             |
+| GET    | `/users/profile/`         | Get user profile       |
+| PUT    | `/users/profile/`         | Update user profile    |
+| POST   | `/users/forgot-password/` | Request password reset |
+| POST   | `/users/reset-password/`  | Submit new password    |
 
 ---
 
 ## License
 
-This project is licensed under the MIT License.
+This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## Contact
+## Author
 
-For questions or support, please open an issue or contact \[[your.email@example.com](mailto:your.email@example.com)].
+Developed by \[Fine DR] – feel free to reach out for questions or collaboration!
 
 ```
 
----
-
-Would you like me to generate a `requirements.txt` or help with other parts?
+Let me know if you want this saved as a file or want a `requirements.txt` generated too.
 ```
