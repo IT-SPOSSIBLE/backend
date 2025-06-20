@@ -41,13 +41,18 @@ SECRET_KEY = 'django-insecure-yybn)qhjzq#c7qm4r_!!$(v0&(&jb&g@9*f&485&#s6*x940-p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'backend-kcxn.onrender.com', 
+    'localhost',                 
+    '127.0.0.1',                  
+]
 
 FRONTEND_URL = "http://localhost:5173"
 
 # Application definition
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://unique-semifreddo-0f060b.netlify.app",
 ]
 
 INSTALLED_APPS = [
