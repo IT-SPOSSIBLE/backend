@@ -12,7 +12,8 @@ import jwt
 from django.conf import settings
 from rest_framework import status, permissions
 from drf_spectacular.utils import extend_schema
-
+from django.http import JsonResponse
+from django.contrib.auth import get_user_model
 class RegisterView(APIView):
     permission_classes = [AllowAny]
     """
@@ -136,3 +137,17 @@ class UserProfileView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def create_admin_user(request):
+    User = get_user_model()
+    
+    if not User.objects.filter(username="admin").exists():
+        User.objects.create_superuser(
+            username="admin",
+            email="joshua@gmail.com",
+            password="admin123"
+        )
+        return JsonResponse({"message": "Admin user created"})
+    else:
+        return JsonResponse({"message": "Admin user already exists"})
