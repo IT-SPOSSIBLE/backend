@@ -142,12 +142,19 @@ class UserProfileView(APIView):
 def create_admin_user(request):
     User = get_user_model()
     
-    if not User.objects.filter(username="admin").exists():
+    admin_email = "admin@gmail.com"
+    
+    if not User.objects.filter(email=admin_email).exists():
         User.objects.create_superuser(
-            username="admin",
-            email="joshua@gmail.com",
-            password="admin123"
+            email=admin_email,
+            password="admin12345",
+            first_name="Super",
+            last_name="Admin",
+            middle_name="System",
+            phone_number="1234567890",
+            role="seller",  # or whatever role makes sense
+            is_active=True
         )
-        return JsonResponse({"message": "Admin user created"})
-    else:
-        return JsonResponse({"message": "Admin user already exists"})
+        return JsonResponse({"message": "Superuser created"})
+    
+    return JsonResponse({"message": "Superuser already exists"})
