@@ -14,7 +14,7 @@ class MotocycleImageAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Motocycle Image Details', {
-            'fields': ('image', 'is_primary')
+            'fields': ('product','image', 'is_primary')
         }),
         # You can optionally show metadata like this
      
