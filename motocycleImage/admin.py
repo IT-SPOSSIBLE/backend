@@ -6,15 +6,17 @@ from django.utils.html import format_html
 class MotocycleImageAdmin(admin.ModelAdmin):
     list_display = (
         'get_title', 'get_price', 'get_category', 'get_status', 'get_posted_by', 
-        'image_path',
-        'image_preview',
-        'action_buttons',
+        'image_path', 'image_preview', 'action_buttons',
     )
     list_per_page = 20
+
+    readonly_fields = ('uploaded_at',)  # ✅ Mark as readonly
+
     fieldsets = (
         ('Motocycle Image Details', {
             'fields': ('image', 'is_primary')
         }),
+        # You can optionally show metadata like this
         ('Metadata', {
             'fields': ('uploaded_at',)
         }),
@@ -41,9 +43,7 @@ class MotocycleImageAdmin(admin.ModelAdmin):
     get_posted_by.short_description = 'Posted By'
 
     def image_path(self, obj):
-        if obj.image:
-            return obj.image.name
-        return "No Image"
+        return obj.image.name if obj.image else "No Image"
     image_path.short_description = 'Image Path'
 
     def image_preview(self, obj):
