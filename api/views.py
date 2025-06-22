@@ -139,22 +139,22 @@ class UserProfileView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def create_admin_user(request):
+def run_create_superuser(request):
     User = get_user_model()
-    
-    admin_email = "admin@gmail.com"
-    
-    if not User.objects.filter(email=admin_email).exists():
+    email = "admin@gmail.com"
+    password = "admin12345"
+
+    if not User.objects.filter(email=email).exists():
         User.objects.create_superuser(
-            email=admin_email,
-            password="admin12345",
+            email=email,
+            password=password,
             first_name="Super",
             last_name="Admin",
             middle_name="System",
             phone_number="1234567890",
-            role="seller",  # or whatever role makes sense
-            is_active=True
+            role="seller",  # or any role you support
+            is_active=True,
         )
-        return JsonResponse({"message": "Superuser created"})
-    
-    return JsonResponse({"message": "Superuser already exists"})
+        return JsonResponse({"message": "✅ Superuser created successfully."})
+    else:
+        return JsonResponse({"message": "⚠️ Superuser already exists."})
