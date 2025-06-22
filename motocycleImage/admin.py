@@ -17,9 +17,7 @@ class MotocycleImageAdmin(admin.ModelAdmin):
             'fields': ('image', 'is_primary')
         }),
         # You can optionally show metadata like this
-        ('Metadata', {
-            'fields': ('uploaded_at',)
-        }),
+     
     )
 
     def get_title(self, obj):
