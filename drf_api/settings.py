@@ -48,6 +48,11 @@ ALLOWED_HOSTS = [
 ]
 
 FRONTEND_URL = "http://localhost:5173"
+CSRF_TRUSTED_ORIGINS = [
+    "https://backend-kcxn.onrender.com"
+]
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 # Application definition
 CORS_ALLOWED_ORIGINS = [

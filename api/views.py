@@ -14,6 +14,10 @@ from rest_framework import status, permissions
 from drf_spectacular.utils import extend_schema
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
+
+import subprocess
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 class RegisterView(APIView):
     permission_classes = [AllowAny]
     """
@@ -159,9 +163,7 @@ def run_create_superuser(request):
     else:
         return JsonResponse({"message": "⚠️ Superuser already exists."})
     
-import subprocess
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+
 
 @csrf_exempt
 def run_migrations(request):
