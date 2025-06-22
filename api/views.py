@@ -158,3 +158,15 @@ def run_create_superuser(request):
         return JsonResponse({"message": "✅ Superuser created successfully."})
     else:
         return JsonResponse({"message": "⚠️ Superuser already exists."})
+    
+import subprocess
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def run_migrations(request):
+    try:
+        result = subprocess.run(["python", "manage.py", "migrate"], check=True, capture_output=True, text=True)
+        return JsonResponse({"message": "✅ Migrations applied", "output": result.stdout})
+    except subprocess.CalledProcessError as e:
+        return JsonResponse({"error": "❌ Migration failed", "details": e.stderr}, status=500)
