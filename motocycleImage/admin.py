@@ -5,7 +5,7 @@ from django.utils.html import format_html
 @admin.register(MotocycleImage)
 class MotocycleImageAdmin(admin.ModelAdmin):
     list_display = (
-        'get_title', 'get_price', 'get_category', 'get_status', 'get_posted_by', 'uploaded_at',
+        'get_title', 'get_price', 'get_category', 'get_status', 'get_posted_by', 
         'image_path',
         'image_preview',
         'action_buttons',
