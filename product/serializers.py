@@ -5,7 +5,7 @@ from motocycleImage.serializers import MotocycleSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
-    motocycleImage = MotocycleSerializer(read_only=True)
+    images = MotocycleSerializer(many=True, read_only=True)  # ← FIXED HERE
 
     class Meta:
         model = Product
