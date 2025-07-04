@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import MotocycleImage
 from django.utils.html import format_html
+from django.urls import reverse
+from .models import MotocycleImage
 
 @admin.register(MotocycleImage)
 class MotocycleImageAdmin(admin.ModelAdmin):
@@ -10,14 +11,12 @@ class MotocycleImageAdmin(admin.ModelAdmin):
     )
     list_per_page = 20
 
-    readonly_fields = ('uploaded_at',)  # ✅ Mark as readonly
+    readonly_fields = ('uploaded_at',)
 
     fieldsets = (
         ('Motocycle Image Details', {
-            'fields': ('product','image', 'is_primary')
+            'fields': ('product', 'image', 'is_primary')
         }),
-        # You can optionally show metadata like this
-     
     )
 
     def get_title(self, obj):
@@ -51,9 +50,12 @@ class MotocycleImageAdmin(admin.ModelAdmin):
     image_preview.short_description = "Image Preview"
 
     def action_buttons(self, obj):
+        change_url = reverse(f'admin:{obj._meta.app_label}_{obj._meta.model_name}_change', args=[obj.pk])
+        delete_url = reverse(f'admin:{obj._meta.app_label}_{obj._meta.model_name}_delete', args=[obj.pk])
         return format_html(
-            '<a href="{}">Edit</a> | <a href="{}">Delete</a>',
-            f"/admin/motocycleimage/motocycleimage/{obj.pk}/change/",
-            f"/admin/motocycleimage/motocycleimage/{obj.pk}/delete/"
+            '<a class="button" href="{}" style="margin-right: 10px;">✏️ Edit</a>'
+            '<a class="button" href="{}" style="color:red;">🗑️ Delete</a>',
+            change_url,
+            delete_url
         )
     action_buttons.short_description = "Actions"
