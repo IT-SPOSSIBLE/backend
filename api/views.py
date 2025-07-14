@@ -106,6 +106,8 @@ class UserLoginView(APIView):
                     "refresh": str(refresh),
                     "access": str(refresh.access_token),
                     "email": user.email,
+                    "role": user.role,
+                    "name": f"{user.first_name} {user.last_name}",
                     
                 }
             )
